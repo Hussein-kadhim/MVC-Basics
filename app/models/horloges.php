@@ -1,0 +1,31 @@
+<?php
+
+class horloges
+{
+    private $db;
+
+    public function __construct()
+    {
+        $this->db = new Database();
+    }
+
+   public function getAllHorloges()
+{
+    $sql = 'SELECT  HRLG.Merk
+                   ,HRLG.Model
+                   ,HRLG.Prijs
+                   ,HRLG.Materiaal
+                   ,HRLG.Gewicht
+                   ,HRLG.Releasedatum
+                   ,HRLG.Waterdichtheid
+                   ,HRLG.Type
+                   ,HRLG.UniekKenmerk
+
+            FROM    Horloges as HRLG
+
+            ORDER BY HRLG.Prijs DESC';
+
+    $this->db->query($sql);
+    return $this->db->resultSet();
+}
+}
