@@ -1,6 +1,6 @@
 <?php
 
-class sneakers
+class sneakers // Veranderd van 'Sneaker' naar 'sneakers'
 {
     private $db;
 
@@ -11,23 +11,27 @@ class sneakers
 
     public function getAllSneakers()
     {
-        $sql = 'SELECT  SNKR.Merk
-                       ,SNKR.Model
-                       ,SNKR.Type
-                       ,SNKR.Prijs
-                       ,SNKR.Materiaal
-                       ,CONCAT(SNKR.Gewicht, " gr") as Gewicht
-                       ,DATE_FORMAT(SNKR.Releasedatum, "%d/%m/%Y") as Releasedatum
-
-                FROM    Sneakers as SNKR
-
-                WHERE   SNKR.IsActief = 1
-
-                ORDER BY SNKR.Prijs DESC
-                        ,SNKR.Releasedatum DESC';
-
+        // Alle kolommen ophalen die je in de View gebruikt
+        $sql = 'SELECT Id, 
+                       Merk, 
+                       Model, 
+                       Type, 
+                       Prijs, 
+                       Materiaal, 
+                       Gewicht, 
+                       Releasedatum 
+                FROM   Sneakers 
+                ORDER BY Merk ASC';
+                
         $this->db->query($sql);
-
         return $this->db->resultSet();
+    }
+
+    public function delete($Id)
+    {
+        $sql = "DELETE FROM Sneakers WHERE Id = :Id";
+        $this->db->query($sql);
+        $this->db->bind(':Id', $Id, PDO::PARAM_INT);
+        return $this->db->execute();
     }
 }

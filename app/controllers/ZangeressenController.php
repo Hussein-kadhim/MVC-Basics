@@ -9,25 +9,24 @@ class ZangeressenController extends BaseController
         $this->zangeresModel = $this->model('zangeressen');
     }
 
-    public function index()
+    public function index($display = 'none', $message = '')
     {
-        /**
-         * Haal de resultaten van de model binnen
-         */
         $result = $this->zangeresModel->getAllZangeressen();
 
-        /**
-         * Het $data-array geeft informatie mee aan de view-pagina
-         */
         $data = [
-            'title' => 'Rijkste Zangeressen',
-            'result' => $result
+            'title'   => 'Top Zangeressen',
+            'display' => $display,
+            'message' => $message,
+            'result'  => $result
         ];
 
-        /**
-         * Met de view-method uit de BaseController-class wordt de view
-         * aangeroepen
-         */
         $this->view('zangeressen/index', $data);
+    }
+
+    public function delete($Id)
+    {
+        $this->zangeresModel->delete($Id);
+        header('Refresh:3; url=' . URLROOT . '/ZangeressenController/index');
+        $this->index('flex', 'Zangeres is verwijderd uit de lijst');
     }
 }

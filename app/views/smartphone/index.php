@@ -2,9 +2,16 @@
 
 <div class="container">
     <div class="row mt-3 d-flex justify-content-center">
-
         <div class="col-10">
-            <h3><?php echo $data['title']; ?></h3>
+            <h3><?= $data['title']; ?></h3>
+        </div>
+    </div>
+
+    <div class="row mt-3 d-<?= $data['display']; ?> justify-content-center">
+        <div class="col-10">
+            <div class="alert alert-success" role="alert">
+                <?= $data['message']; ?>
+            </div>
         </div>
     </div>
 
@@ -21,7 +28,7 @@
                         <th>Schermgrootte</th>
                         <th>Releasedatum</th>
                         <th>MegaPixels</th>
-                    </tr>
+                        <th class="text-center">Verwijder</th> </tr>
                 </thead>
                 <tbody>
                     <?php foreach($data['result'] as $smartphone) : ?>
@@ -34,12 +41,20 @@
                             <td><?= $smartphone->Schermgrootte; ?></td>
                             <td><?= $smartphone->Releasedatum; ?></td>
                             <td><?= $smartphone->MegaPixels; ?></td>
+                            <td class="text-center">
+                                <a href="<?= URLROOT; ?>/SmartphoneController/delete/<?= $smartphone->Id; ?>"
+                                   onclick="return confirm('Weet je zeker dat je dit record wilt verwijderen?');">
+                                    <i class="bi bi-trash3-fill text-danger"></i>
+                                </a>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
 
-            <a href="<?= URLROOT; ?>/homepages/index"><i class="bi bi-arrow-left"></i></a>
+            <a href="<?= URLROOT; ?>/homepages/index">
+                <i class="bi bi-arrow-left"></i>
+            </a>
         </div>
     </div>
 </div>

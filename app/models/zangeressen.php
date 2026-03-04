@@ -11,8 +11,9 @@ class zangeressen
 
     public function getAllZangeressen()
     {
-        // Selecteer de juiste kolommen uit de tabel 'zangeressen'
-        $sql = 'SELECT  Naam
+        // Voeg Id toe aan de SELECT zodat de delete-knop werkt
+        $sql = 'SELECT  Id
+                       ,Naam
                        ,NettoWaarde
                        ,Land
                        ,Leeftijd
@@ -23,5 +24,16 @@ class zangeressen
 
         $this->db->query($sql);
         return $this->db->resultSet();
+    }
+
+    public function delete($Id)
+    {
+        $sql = "DELETE FROM zangeressen 
+                WHERE Id = :Id";
+
+        $this->db->query($sql);
+        $this->db->bind(':Id', $Id, PDO::PARAM_INT);
+
+        return $this->db->execute();
     }
 }

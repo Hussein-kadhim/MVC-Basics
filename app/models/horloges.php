@@ -9,23 +9,28 @@ class horloges
         $this->db = new Database();
     }
 
-   public function getAllHorloges()
-{
-    $sql = 'SELECT  HRLG.Merk
-                   ,HRLG.Model
-                   ,HRLG.Prijs
-                   ,HRLG.Materiaal
-                   ,HRLG.Gewicht
-                   ,HRLG.Releasedatum
-                   ,HRLG.Waterdichtheid
-                   ,HRLG.Type
-                   ,HRLG.UniekKenmerk
+    public function getAllHorloges()
+    {
+        // Voeg de ontbrekende kolom toe aan de SELECT
+        $sql = 'SELECT Id, 
+                       Merk, 
+                       Model, 
+                       Prijs, 
+                       Type, 
+                       Materiaal,
+                       UniekKenmerk 
+                FROM Horloges 
+                ORDER BY Prijs DESC';
+        
+        $this->db->query($sql);
+        return $this->db->resultSet();
+    }
 
-            FROM    Horloges as HRLG
-
-            ORDER BY HRLG.Prijs DESC';
-
-    $this->db->query($sql);
-    return $this->db->resultSet();
-}
+    public function delete($Id)
+    {
+        $sql = "DELETE FROM Horloges WHERE Id = :Id";
+        $this->db->query($sql);
+        $this->db->bind(':Id', $Id, PDO::PARAM_INT);
+        return $this->db->execute();
+    }
 }

@@ -9,25 +9,24 @@ class HorlogesController extends BaseController
         $this->horlogeModel = $this->model('horloges');
     }
 
-    public function index()
+    public function index($display = 'none', $message = '')
     {
-        /**
-         * Haal de resultaten van de model binnen
-         */
         $result = $this->horlogeModel->getAllHorloges();
 
-        /**
-         * Het $data-array geeft informatie mee aan de view-pagina
-         */
         $data = [
-            'title' => 'Duurste Horloges',
-            'result' => $result
+            'title'   => 'Overzicht Horloges',
+            'display' => $display,
+            'message' => $message,
+            'result'  => $result
         ];
 
-        /**
-         * Met de view-method uit de BaseController-class wordt de view
-         * aangeroepen
-         */
         $this->view('horloges/index', $data);
+    }
+
+    public function delete($Id)
+    {
+        $this->horlogeModel->delete($Id);
+        header('Refresh:3; url=' . URLROOT . '/HorlogesController/index');
+        $this->index('flex', 'Het horloge is verwijderd');
     }
 }
