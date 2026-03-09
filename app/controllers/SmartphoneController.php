@@ -51,4 +51,36 @@ class SmartphoneController extends BaseController
          */
         $this->index('flex', 'Record is verwijderd');
     }
+
+    public function create()
+{
+    $data = [
+        'title'   => 'Nieuwe smartphone toevoegen',
+        'display' => 'none',
+        'message' => ''
+    ];
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        // Controleer of alle velden zijn ingevuld
+        if (empty($_POST['merk']) || empty($_POST['model']) || empty($_POST['prijs']) || 
+            empty($_POST['geheugen']) || empty($_POST['besturingssysteem']) || 
+            empty($_POST['schermgrootte']) || empty($_POST['releasedatum']) || 
+            empty($_POST['megapixels'])) {
+            
+            $data['display'] = 'flex';
+            $data['message'] = 'Vul alle velden in';
+        } else {
+            // Gegevens opslaan via het model
+            $this->smartphoneModel->create($_POST);
+            $data['display'] = 'flex';
+            $data['message'] = 'De gegevens van de smartphone zijn opgeslagen';
+            
+            // Na 3 seconden terugsturen naar de index
+            header('Refresh:3; url=' . URLROOT . '/SmartphoneController/index');
+        }
+    }
+    $this->view('smartphone/create', $data);
+}
 }

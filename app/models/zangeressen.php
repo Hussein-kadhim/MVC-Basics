@@ -36,4 +36,20 @@ class zangeressen
 
         return $this->db->execute();
     }
+public function create($data)
+{
+    $sql = "INSERT INTO zangeressen (Naam, NettoWaarde, Land, Leeftijd, BekendsteNummer, Debuutjaar) 
+            VALUES (:naam, :waarde, :land, :leeftijd, :nummer, :jaar)";
+
+    $this->db->query($sql);
+    
+    $this->db->bind(':naam', $data['naam'], PDO::PARAM_STR);
+    $this->db->bind(':waarde', $data['waarde'], PDO::PARAM_INT); // Was 'netto_waarde'
+    $this->db->bind(':land', $data['land'], PDO::PARAM_STR);
+    $this->db->bind(':leeftijd', $data['leeftijd'], PDO::PARAM_INT);
+    $this->db->bind(':nummer', $data['nummer'], PDO::PARAM_STR);
+    $this->db->bind(':jaar', $data['jaar'], PDO::PARAM_INT); // Was 'debuutjaar'
+
+    return $this->db->execute();
+}
 }

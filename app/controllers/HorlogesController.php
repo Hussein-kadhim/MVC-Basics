@@ -29,4 +29,28 @@ class HorlogesController extends BaseController
         header('Refresh:3; url=' . URLROOT . '/HorlogesController/index');
         $this->index('flex', 'Het horloge is verwijderd');
     }
-}
+
+    public function create()
+    {
+        $data = [
+            'title'   => 'Nieuw horloge toevoegen',
+            'display' => 'none',
+            'message' => ''
+        ];
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            if (empty($_POST['merk']) || empty($_POST['model']) || empty($_POST['prijs'])) {
+                $data['display'] = 'flex';
+                $data['message'] = 'Vul alle velden in';
+            } else {
+                $this->horlogeModel->create($_POST);
+                $data['display'] = 'flex';
+                $data['message'] = 'Het horloge is opgeslagen';
+                header('Refresh:3; url=' . URLROOT . '/HorlogesController/index');
+            }
+        }
+        $this->view('horloges/create', $data);
+    }
+} // Zorg dat deze haak hier staat om de controller af te sluiten!
