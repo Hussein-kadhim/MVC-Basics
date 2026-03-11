@@ -41,9 +41,8 @@ class HorlogesController extends BaseController
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            if (empty($_POST['merk']) || empty($_POST['model']) || empty($_POST['prijs'])) {
-                $data['display'] = 'flex';
-                $data['message'] = 'Vul alle velden in';
+            if (empty($_POST['merk']) || empty($_POST['model']) || empty($_POST['prijs']) ||
+    empty($_POST['materiaal']) || empty($_POST['type']) || empty($_POST['kenmerk'])) {
             } else {
                 $this->horlogeModel->create($_POST);
                 $data['display'] = 'flex';
