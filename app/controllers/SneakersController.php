@@ -31,30 +31,65 @@ class SneakersController extends BaseController
     }
 
     public function create()
-{
-    $data = [
-        'title'   => 'Nieuwe sneaker toevoegen',
-        'display' => 'none',
-        'message' => ''
-    ];
+    {
+        $data = [
+            'title'   => 'Nieuwe sneaker toevoegen',
+            'display' => 'none',
+            'message' => ''
+        ];
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        // Check of alle velden zijn ingevuld
-        if (empty($_POST['merk']) || empty($_POST['model']) || empty($_POST['type']) || 
-            empty($_POST['prijs']) || empty($_POST['materiaal']) || 
-            empty($_POST['gewicht']) || empty($_POST['releasedatum'])) {
-            
-            $data['display'] = 'flex';
-            $data['message'] = 'Vul alle velden in';
-        } else {
-            $this->sneakerModel->create($_POST);
-            $data['display'] = 'flex';
-            $data['message'] = 'De gegevens zijn opgeslagen';
-            header('Refresh:3; url=' . URLROOT . '/SneakersController/index');
+            if (empty($_POST['merk']) || empty($_POST['model']) || empty($_POST['type']) ||
+                empty($_POST['prijs']) || empty($_POST['materiaal']) ||
+                empty($_POST['gewicht']) || empty($_POST['releasedatum'])) {
+
+                $data['display'] = 'flex';
+                $data['message'] = 'Vul alle velden in';
+            } else {
+                $this->sneakerModel->create($_POST);
+                $data['display'] = 'flex';
+                $data['message'] = 'De gegevens zijn opgeslagen';
+                header('Refresh:3; url=' . URLROOT . '/SneakersController/index');
+            }
         }
+        $this->view('sneakers/create', $data);
     }
-    $this->view('sneakers/create', $data);
-}
+
+    public function update($id = NULL)
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            if (empty($_POST['merk']) || empty($_POST['model']) || empty($_POST['type']) ||
+                empty($_POST['prijs']) || empty($_POST['materiaal']) ||
+                empty($_POST['gewicht']) || empty($_POST['releasedatum'])) {
+
+                $data = [
+                    'title'   => 'Wijzig sneaker',
+                    'display' => 'flex',
+                    'message' => 'Vul alle velden in',
+                    'sneaker' => $this->sneakerModel->getSneakerById($_POST['id'])
+                ];
+            } else {
+                $this->sneakerModel->updateSneaker($_POST);
+                header('Refresh:3; url=' . URLROOT . '/SneakersController/index');
+                $data = [
+                    'title'   => 'Wijzig sneaker',
+                    'display' => 'flex',
+                    'message' => 'De gegevens zijn gewijzigd',
+                    'sneaker' => $this->sneakerModel->getSneakerById($_POST['id'])
+                ];
+            }
+        } else {
+            $data = [
+                'title'   => 'Wijzig sneaker',
+                'display' => 'none',
+                'message' => '',
+                'sneaker' => $this->sneakerModel->getSneakerById($id)
+            ];
+        }
+        $this->view('sneakers/update', $data);
+    }
 }

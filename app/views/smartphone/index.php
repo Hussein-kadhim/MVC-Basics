@@ -16,10 +16,11 @@
     </div>
 
     <div class="row mt-3 d-flex justify-content-center">
-    <div class="col-10 text-begin text-danger">
-        <a href="<?= URLROOT; ?>/SmartphoneController/create" class="btn btn-warning" role="button">Nieuwe smartphone</a>
+        <div class="col-10 text-begin text-danger">
+            <a href="<?= URLROOT; ?>/SmartphoneController/create" class="btn btn-warning" role="button">Nieuwe
+                smartphone</a>
+        </div>
     </div>
-</div>
 
     <div class="row mt-3 d-flex justify-content-center">
         <div class="col-10">
@@ -34,26 +35,33 @@
                         <th>Schermgrootte</th>
                         <th>Releasedatum</th>
                         <th>MegaPixels</th>
-                        <th class="text-center">Verwijder</th> </tr>
+                        <th class="text-center">Wijzig</th>
+                        <th class="text-center">Verwijder</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <?php foreach($data['result'] as $smartphone) : ?>
-                        <tr>
-                            <td><?= $smartphone->Merk; ?></td>
-                            <td><?= $smartphone->Model; ?></td>
-                            <td><?= $smartphone->Prijs; ?></td>
-                            <td><?= $smartphone->Geheugen; ?></td>
-                            <td><?= $smartphone->Besturingssysteem; ?></td>
-                            <td><?= $smartphone->Schermgrootte; ?></td>
-                            <td><?= $smartphone->Releasedatum; ?></td>
-                            <td><?= $smartphone->MegaPixels; ?></td>
-                            <td class="text-center">
-                                <a href="<?= URLROOT; ?>/SmartphoneController/delete/<?= $smartphone->Id; ?>"
-                                   onclick="return confirm('Weet je zeker dat je dit record wilt verwijderen?');">
-                                    <i class="bi bi-trash3-fill text-danger"></i>
-                                </a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td><?= $smartphone->Merk; ?></td>
+                        <td><?= $smartphone->Model; ?></td>
+                        <td><?= $smartphone->Prijs; ?></td>
+                        <td><?= $smartphone->Geheugen; ?></td>
+                        <td><?= $smartphone->Besturingssysteem; ?></td>
+                        <td><?= $smartphone->Schermgrootte; ?></td>
+                        <td><?= $smartphone->Releasedatum; ?></td>
+                        <td><?= $smartphone->MegaPixels; ?></td>
+                        <td class="text-center">
+                            <a href="<?= URLROOT; ?>/SmartphoneController/update/<?= $smartphone->Id; ?>">
+                                <i class="bi bi-pencil-fill text-success"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <a href="<?= URLROOT; ?>/SmartphoneController/delete/<?= $smartphone->Id; ?>"
+                                onclick="return confirm('Weet je zeker dat je dit record wilt verwijderen?');">
+                                <i class="bi bi-trash3-fill text-danger"></i>
+                            </a>
+                        </td>
+                    </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
